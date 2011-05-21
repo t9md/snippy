@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block main_blk %}
+<div class="inputform">
+  {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+  
+  <form action="" method="POST">
+    <div style="margin-left: 10px">
+      ID <input type=text name=username>
+    </div>
+    <div style="margin-left: 10px">
+      PW <input type=password name=password>
+    </div>
+    <div style="margin-left: 10px">
+      <input type=submit value=Login>
+    </div>
+  </form>
+</div>
+{% endblock %}

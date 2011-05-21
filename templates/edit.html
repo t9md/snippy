@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% if not sni is defined %}
+  {% set sni = {} %}
+{% endif %}
+{% block main_blk %}
+    <div class="inputform">
+      <form action="/create_or_update" method="POST">
+        <div style="margin-left: 10px">
+          <select name="lang">
+            {% for lang in optlist %}
+            <option {% if sni.lang is defined and sni.lang == lang %} selected {% endif %}>{{ lang }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div style="margin-left: 10px">
+          <input type="text" name="title" size="60" value="{{ sni.title|default("") }}"  maxlength="70"/>
+        </div>
+        <div style="margin-left: 10px">
+          <textarea name="code" rows="10" cols="60">{{ sni.code|default("") }}</textarea>
+        </div>
+        <input type="hidden" name="sni_id" value="{{ sni.id|default("") }}">
+        <div style="margin-left: 10px">
+          <input type="submit" value="Update"/><input type="reset" value="Clear"/>
+        </div>
+      </form>
+    </div>
+{% endblock %}

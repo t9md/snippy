@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block main_blk %}
+  {% for snip in snippets %}
+  {{ snip.highlight()|safe }}
+  <div class='description'>
+    <span>
+      {# sni_id #}
+      <a class='btn' href='/{{ snip.id }}' >{{snip.id}}</a>
+      {# raw #}
+      <a class='btn' href='{{PUBLIC_URL}}/raw/{{snip.id}}'>raw</a>
+      {# date #}
+      {{ snip.date.strftime("%Y-%m-%d %H:%M:%S" ) }}
+      {# title #}
+      [ {{snip.title|e}} ]
+      {# user #}
+      <a class='btn' href='/?author={{snip.author}}' >{{snip.author|e}}</a>
+      {# lang #}
+      <a class='btn' href='/?lang={{ snip.lang }}' >{{snip.lang}}</a>
+      {# edit #}
+      {% if current_user == snip.author %}
+        <a class='btn' href='/edit/{{ snip.id }}'>Edit</a>
+      {% else %}
+        Edit
+      {% endif %}
+      {# delete #}
+      {% if current_user == snip.author %}
+        <a class='btn' onclick="val=confirm('Delete?');return val" href='/delete/{{ snip.id }}'>Delete</a>
+      {% else %}
+        Delete
+      {% endif %}
+    </span>
+  </div>
+  </br>
+  {% endfor %}
+{% endblock %}

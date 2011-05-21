@@ -1,0 +1,61 @@
+<!doctype html>
+<html> 
+  <head> 
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"> 
+    <title>Snippy</title> 
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='snippet_min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='highlight.css') }}">
+    <script rel=stylesheet type=text/javascript src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script rel=stylesheet type=text/javascript src="{{ url_for('static', filename='snippy.js') }}"></script>
+  </head> 
+  <body> 
+    <div id='flybar'>
+      <div class="navigation"><a href='{{url_for('index')}}'>Top</a></div>
+      <div class="navigation"><a href='{{url_for('add')}}'>Create</a></div>
+      {% if newer is defined and newer %}
+        <div class="navigation"><a href='/{{newer}}'>Newer</a></div>
+      {% else %}
+        <div class="navigation non_active"></div>
+      {% endif %}
+
+      {% if older is defined and older %}
+        <div class="navigation"><a href='/{{older}}'>Older</a></div>
+      {% else %}
+        <div class="navigation non_active"></div>
+      {% endif %}
+
+      {% if session.get('username', False) %}
+        <div class="navigation"><a href='{{url_for('logout')}}'>Logout</a></div>
+      {% else %}
+        <div class="navigation"><a href='{{url_for('login')}}'>Login</a></div>
+      {% endif %}
+    </div>
+    <div id='main'> 
+      {% block main_blk %}{% endblock %}
+    </div>
+    <div id='sidebar'>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class=flashes>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <h4>Users</h4>
+      <ul>
+        {% for user in users %}
+          <li><a href='/?author={{user.name}}'>{{user.name}}</a></li>
+        {% endfor %}
+        </ul>
+      <h4>Languages</h4>
+      <ul>
+        {% for (lang, count) in languages %}
+        <li><a href='/?lang={{lang}}'>{{lang}}: {{count}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
